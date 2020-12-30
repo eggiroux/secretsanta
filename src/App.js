@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "styled-components";
+import GlobalStyles from "./Components/GlobalStyles";
 
-function App() {
+import { COLORS } from "./constants";
+
+import { TopBar } from "./Components/TopBar";
+import { Main } from "./Components/Main";
+
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <GlobalStyles />
+      <TopBar />
+      <Main />
+    </Wrapper>
   );
-}
+};
 
-export default App;
+const Wrapper = styled.main`
+  min-height: 100%;
+  background-color: ${COLORS.background};
+`;
