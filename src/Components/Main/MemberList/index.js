@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { users } from "../../../data/data";
+import { UserContext } from "../../UserContext";
 
 import { Member } from "./Member";
 
@@ -10,9 +11,12 @@ export const MemberList = ({
   setSelectedMember,
   currentGroup,
 }) => {
+  const { appUser } = React.useContext(UserContext);
+
   return (
     <Wrapper>
-      <Title>Participants</Title>
+      <Title>{currentGroup.name}</Title>
+
       <Members>
         {Object.keys(currentGroup.members).map((memberId, index) => {
           const currentMember = users.find(

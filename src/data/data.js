@@ -1,7 +1,7 @@
 export const groups = [
   {
     id: 1,
-    name: "Groupe 1",
+    name: "Famille Giroux",
     mods: [873681764],
     priceCap: 35,
     members: {
@@ -42,7 +42,7 @@ export const groups = [
   },
   {
     id: 2,
-    name: "Groupe 2",
+    name: "Test",
     mods: [873681764],
     priceCap: 35,
     members: {

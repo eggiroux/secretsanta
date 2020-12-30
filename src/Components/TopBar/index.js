@@ -9,7 +9,11 @@ import { UserArea } from "./UserArea";
 export const TopBar = () => {
   return (
     <Wrapper>
-      <FiUsers size={32} />
+      <Action>
+        <FiUsers size={32} />
+        <ActionName>Groups</ActionName>
+      </Action>
+
       <UserArea />
     </Wrapper>
   );
@@ -21,4 +25,14 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 8px;
+`;
+
+const Action = styled.div`
+  color: ${COLORS.background};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ActionName = styled.p`
+  color: ${COLORS.background};
 `;
