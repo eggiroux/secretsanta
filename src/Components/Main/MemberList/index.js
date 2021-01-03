@@ -7,6 +7,7 @@ export const MemberList = ({
   selectedMember,
   setSelectedMember,
   currentGroup,
+  appUserName,
 }) => {
   return (
     <Wrapper>
@@ -19,6 +20,7 @@ export const MemberList = ({
               key={`${member}-${index}`}
               name={member}
               isSelected={selectedMember === member}
+              isYou={member === appUserName}
               onClick={() => {
                 setSelectedMember(member);
               }}

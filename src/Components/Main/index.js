@@ -21,6 +21,7 @@ export const Main = () => {
         selectedMember={selectedMember}
         setSelectedMember={setSelectedMember}
         currentGroup={currentGroup}
+        appUserName={appUser.name}
       />
       <Suggestions
         selectedMember={selectedMember}

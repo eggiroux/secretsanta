@@ -1,17 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Member = ({ name, isSelected, onClick }) => {
+export const Member = ({ name, isSelected, onClick, isYou }) => {
   if (isSelected) {
     return (
       <Wrapper>
-        <SelectedName>{name}</SelectedName>
+        <SelectedName>
+          {name}
+          {isYou && " (← you!)"}
+        </SelectedName>
       </Wrapper>
     );
   }
   return (
     <Wrapper>
-      <Name onClick={onClick}>{name}</Name>
+      <Name onClick={onClick}>
+        {name} {isYou && " (← you!)"}
+      </Name>
     </Wrapper>
   );
 };

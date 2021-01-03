@@ -14,7 +14,11 @@ export const App = () => {
   const { appUser } = React.useContext(UserContext);
 
   if (!appUser) {
-    return null;
+    return (
+      <Wrapper>
+        <TopBar />
+      </Wrapper>
+    );
   }
   return (
     <Wrapper>

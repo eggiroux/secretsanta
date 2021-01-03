@@ -15,6 +15,11 @@ export const Suggestions = ({ selectedMember, currentGroup }) => {
     currentGroup.members[selectedMember].othersList
   );
 
+  React.useEffect(() => {
+    setOwnList(currentGroup.members[selectedMember].ownList);
+    setOthersList(currentGroup.members[selectedMember].othersList);
+  }, [selectedMember]);
+
   const updateList = (list, newSuggestion) => {
     if (list === "ownList") {
       setOwnList((ownList) => [...ownList, newSuggestion]);
