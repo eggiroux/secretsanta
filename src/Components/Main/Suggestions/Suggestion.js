@@ -6,7 +6,9 @@ export const Suggestion = ({ name, desc, link }) => {
     return (
       <Wrapper>
         <Name>
-          <Link href={link}>{name}</Link>
+          <Link target="_blank" href={link}>
+            {name}
+          </Link>
         </Name>
         {desc && <Description>{desc}</Description>}
       </Wrapper>

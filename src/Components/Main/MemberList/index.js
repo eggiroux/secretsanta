@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { users } from "../../../data/data";
-import { UserContext } from "../../UserContext";
-
 import { Member } from "./Member";
 
 export const MemberList = ({
@@ -11,24 +8,19 @@ export const MemberList = ({
   setSelectedMember,
   currentGroup,
 }) => {
-  const { appUser } = React.useContext(UserContext);
-
   return (
     <Wrapper>
       <Title>{currentGroup.name}</Title>
 
       <Members>
-        {Object.keys(currentGroup.members).map((memberId, index) => {
-          const currentMember = users.find(
-            (user) => user.id === Number(memberId)
-          );
+        {Object.keys(currentGroup.members).map((member, index) => {
           return (
             <Member
-              key={`${currentMember.name}+ ${index}`}
-              name={currentMember.name}
-              isSelected={selectedMember.id === currentMember.id}
+              key={`${member}-${index}`}
+              name={member}
+              isSelected={selectedMember === member}
               onClick={() => {
-                setSelectedMember(currentMember);
+                setSelectedMember(member);
               }}
             />
           );
@@ -43,6 +35,7 @@ const Wrapper = styled.div`
   padding: 0px 16px;
   border: 1px solid black;
   border-radius: 6px;
+  height: fit-content;
 `;
 
 const Title = styled.h3`

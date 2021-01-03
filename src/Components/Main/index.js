@@ -9,14 +9,11 @@ import { MemberList } from "./MemberList";
 import { Suggestions } from "./Suggestions";
 
 export const Main = () => {
-  const { appUser } = React.useContext(UserContext);
-  const [selectedMember, setSelectedMember] = React.useState(appUser);
+  const { appUser, currentGroup } = React.useContext(UserContext);
 
-  const [currentGroup, setCurrentGroup] = React.useState(
-    groups.find((group) => group.id === appUser.groups[0])
-  );
+  const [selectedMember, setSelectedMember] = React.useState(appUser.name);
 
-  //console.log(selectedMember);
+  // console.log(selectedMember);
 
   return (
     <Wrapper>

@@ -12,9 +12,6 @@ export const UserArea = () => {
       <Username>{appUser.name}</Username>
       <Actions>
         <Action>
-          <FiHome />
-        </Action>
-        <Action>
           <FiUser />
         </Action>
         <Action>
