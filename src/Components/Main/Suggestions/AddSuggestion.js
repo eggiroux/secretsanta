@@ -5,9 +5,10 @@ import { addSuggestionToGroup } from "../../../helpers/api-helpers";
 import { validateLink } from "../../../helpers/helpers";
 
 export const AddSuggestion = ({
-  selectedMemberId,
-  appUserId,
+  selectedMember,
+  appUserName,
   currentGroupId,
+  updateList,
 }) => {
   const [name, setName] = React.useState("");
   const [link, setLink] = React.useState("");
@@ -15,12 +16,16 @@ export const AddSuggestion = ({
 
   const submitSuggestion = (ev) => {
     ev.preventDefault();
-    const list = appUserId === selectedMemberId ? "ownList" : "othersList";
+    const list = appUserName === selectedMember ? "ownList" : "othersList";
     //console.log("submitted", name, validateLink(link), desc);
-    addSuggestionToGroup(currentGroupId, selectedMemberId, list, {
+    addSuggestionToGroup(currentGroupId, selectedMember, list, {
       name,
       link: validateLink(link),
       desc,
+    }).then((res) => {
+      if (res.success) {
+        updateList(list, res.suggestion);
+      }
     });
   };
 

@@ -14,7 +14,18 @@ export const getUserData = (userId) => {
 };
 
 export const addSuggestionToGroup = (groupId, member, list, suggestion) => {
-  const group = groups.find((arrayGroup) => arrayGroup.id === groupId);
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      groupId,
+      member,
+      list,
+      suggestion,
+    }),
+  };
 
-  group.members[member][list].push(suggestion);
+  return fetch(`/suggestion/`, options).then((res) => res.json());
 };

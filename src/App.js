@@ -1,11 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import GlobalStyles from "./Components/GlobalStyles";
 
 import { UserContext } from "./Components/UserContext";
@@ -26,11 +21,13 @@ export const App = () => {
       <Router>
         <GlobalStyles />
         <TopBar />
-        <Route path={"/groups/"}>groups management</Route>
-        <Route path={"/user/"}>user management</Route>
-        <Route exact={true} path={"/"}>
-          <Main />
-        </Route>
+        <Switch>
+          <Route path={"/groups/"}>groups management</Route>
+          <Route path={"/user/"}>user management</Route>
+          <Route exact={true} path={"/"}>
+            <Main />
+          </Route>
+        </Switch>
       </Router>
     </Wrapper>
   );

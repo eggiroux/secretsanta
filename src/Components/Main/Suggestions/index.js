@@ -8,8 +8,20 @@ import { UserContext } from "../../UserContext";
 export const Suggestions = ({ selectedMember, currentGroup }) => {
   const { appUser } = React.useContext(UserContext);
 
-  const ownList = currentGroup.members[selectedMember].ownList;
-  const othersList = currentGroup.members[selectedMember].othersList;
+  const [ownList, setOwnList] = React.useState(
+    currentGroup.members[selectedMember].ownList
+  );
+  const [othersList, setOthersList] = React.useState(
+    currentGroup.members[selectedMember].othersList
+  );
+
+  const updateList = (list, newSuggestion) => {
+    if (list === "ownList") {
+      setOwnList((ownList) => [...ownList, newSuggestion]);
+    } else {
+      setOthersList((othersList) => [...othersList, newSuggestion]);
+    }
+  };
 
   let emptyOwnListText =
     "This list is empty. Please ask this person to add some suggestions!";
@@ -24,13 +36,14 @@ export const Suggestions = ({ selectedMember, currentGroup }) => {
   return (
     <Wrapper>
       <AddSuggestion
-        selectedMemberId={selectedMember}
-        appUserId={appUser.id}
-        currentGroupId={currentGroup.id}
+        selectedMember={selectedMember}
+        appUserName={appUser.name}
+        currentGroupId={currentGroup._id}
+        updateList={updateList}
       />
       <SuggestionsArea>
         <Title>Suggestions</Title>
-        <Subtitle>{`These suggestions were added by ${selectedMember.name}`}</Subtitle>
+        <Subtitle>{`These suggestions were added by ${selectedMember}`}</Subtitle>
         <SuggestionList>
           {ownList.length === 0 && (
             <Suggestion name={emptyOwnListText} desc={""} link={""} />
@@ -47,11 +60,11 @@ export const Suggestions = ({ selectedMember, currentGroup }) => {
           })}
         </SuggestionList>
 
-        {selectedMember.id !== appUser.id && (
+        {selectedMember !== appUser.name && (
           <>
             <Splitter />
             <Title>Secret Suggestions</Title>
-            <Subtitle>{`These suggestions were added by others in your group, and are hidden to ${selectedMember.name}`}</Subtitle>
+            <Subtitle>{`These suggestions were added by others in your group, and are hidden to ${selectedMember}`}</Subtitle>
             <SuggestionList>
               {othersList.length === 0 && (
                 <Suggestion name={emptyOthersListText} desc={""} link={""} />
