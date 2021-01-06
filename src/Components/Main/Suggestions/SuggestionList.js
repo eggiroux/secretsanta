@@ -1,29 +1,37 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Suggestion } from "./Suggestion";
 
-export const SuggestionList = ({
-  emptyString,
-  selectedUserId,
-  suggestions,
-  listType,
-}) => {
-  let filteredSuggestions = [];
+export const SuggestionList = ({ emptyString, selectedUserId, listType }) => {
+  const { currentSuggestions } = useSelector((state) => state.groups);
 
-  if (listType === "ownList") {
-    filteredSuggestions = suggestions.filter(
-      (suggestion) =>
-        suggestion.for === selectedUserId && suggestion.from === selectedUserId
-    );
-  }
+  const [filteredSuggestions, setFilteredSuggestions] = React.useState([]);
 
-  if (listType === "othersList") {
-    filteredSuggestions = suggestions.filter(
-      (suggestion) =>
-        suggestion.for === selectedUserId && suggestion.from !== selectedUserId
-    );
-  }
+  React.useEffect(() => {
+    if (currentSuggestions) {
+      if (listType === "ownList") {
+        setFilteredSuggestions(
+          currentSuggestions.filter(
+            (suggestion) =>
+              suggestion.for === selectedUserId &&
+              suggestion.from === selectedUserId
+          )
+        );
+      }
+
+      if (listType === "othersList") {
+        setFilteredSuggestions(
+          currentSuggestions.filter(
+            (suggestion) =>
+              suggestion.for === selectedUserId &&
+              suggestion.from !== selectedUserId
+          )
+        );
+      }
+    }
+  }, [currentSuggestions, selectedUserId]);
 
   if (filteredSuggestions.length === 0) {
     return <Suggestion name={emptyString} desc={""} link={""} />;
@@ -38,6 +46,8 @@ export const SuggestionList = ({
             name={item.name}
             desc={item.desc}
             link={item.link}
+            suggId={item.id}
+            from={item.from}
           />
         );
       })}

@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 import { COLORS } from "../../constants";
 
+import { changeCurrentGroup } from "../../actions";
 import { DropdownMenu } from "../DropdownMenu";
-import { UserContext } from "../UserContext";
 
 export const GroupsDropDown = ({ currentMenu, dismiss }) => {
-  const { userGroups, setCurrentGroupIndex, currentGroup } = React.useContext(
-    UserContext
-  );
+  const dispatch = useDispatch();
+  const { groups, currentGroup } = useSelector((state) => state.groups);
 
-  if (!userGroups) {
+  if (groups.length === 0) {
     return null;
   }
   return (
@@ -22,16 +22,16 @@ export const GroupsDropDown = ({ currentMenu, dismiss }) => {
       dismiss={dismiss}
     >
       <List>
-        {userGroups.length >= 2 && (
+        {groups.length >= 2 && (
           <SubList>
             Switch Groups
             <GroupList>
-              {userGroups.map((group, index) => {
+              {groups.map((group, index) => {
                 return (
                   <GroupItem
                     key={`${group.name}`}
                     onClick={(ev) => {
-                      setCurrentGroupIndex(index);
+                      dispatch(changeCurrentGroup(index));
                     }}
                   >
                     {group.name}

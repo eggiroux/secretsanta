@@ -2,43 +2,26 @@ import React from "react";
 
 import { getUserData } from "../helpers/api-helpers";
 
-const userId = 873681764;
+import { useSelector, useDispatch } from "react-redux";
 
-export const UserContext = React.createContext(null);
+import { requestUserInfo, receiveUserInfo, userInfoError } from "../actions";
 
 export const UserProvider = ({ children }) => {
-  let [appUser, setAppUser] = React.useState(null);
-  let [currentGroup, setCurrentGroup] = React.useState(null);
-  let [currentGroupIndex, setCurrentGroupIndex] = React.useState(0);
-  let [userGroups, setUserGroups] = React.useState(null);
+  const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state.auth.userId);
 
   React.useEffect(() => {
-    if (!userGroups) {
-      return;
-    }
-    setCurrentGroup(userGroups[currentGroupIndex]);
-  }, [currentGroupIndex, currentGroup, userGroups]);
+    dispatch(requestUserInfo());
 
-  React.useEffect(() => {
     getUserData(userId)
       .then((data) => {
         console.log(data);
-        setUserGroups(data.userGroups);
-        setAppUser(data.userData);
+        dispatch(receiveGroupData(data.userGroups));
+        dispatch(receiveUserInfo(data.userData));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => dispatch(userInfoError(err)));
   }, []);
 
-  return (
-    <UserContext.Provider
-      value={{
-        appUser,
-        currentGroup,
-        userGroups,
-        setCurrentGroupIndex,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider>{children}</UserContext.Provider>;
 };

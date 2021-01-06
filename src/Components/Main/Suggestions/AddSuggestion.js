@@ -1,30 +1,37 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 import { addSuggestionToGroup } from "../../../helpers/api-helpers";
+import { addSuggestion } from "../../../actions";
 import { validateLink } from "../../../helpers/helpers";
 
-export const AddSuggestion = ({
-  selectedMember,
-  appUserName,
-  currentGroupId,
-  updateList,
-}) => {
+export const AddSuggestion = ({ selectedMember }) => {
+  const dispatch = useDispatch();
+
+  const { appUser } = useSelector((state) => state.appUser);
+  const { currentGroup } = useSelector((state) => state.groups);
   const [name, setName] = React.useState("");
   const [link, setLink] = React.useState("");
   const [desc, setDesc] = React.useState("");
 
   const submitSuggestion = (ev) => {
     ev.preventDefault();
-    const list = appUserName === selectedMember ? "ownList" : "othersList";
     //console.log("submitted", name, validateLink(link), desc);
-    addSuggestionToGroup(currentGroupId, selectedMember, list, {
+    addSuggestionToGroup(currentGroup._id, selectedMember, {
       name,
       link: validateLink(link),
       desc,
+      from: appUser._id,
     }).then((res) => {
       if (res.success) {
-        updateList(list, res.suggestion);
+        console.log(res);
+        const localSuggestion = {
+          ...res.suggestion,
+          from: appUser.name,
+          for: selectedMember,
+        };
+        dispatch(addSuggestion(localSuggestion));
       }
     });
   };

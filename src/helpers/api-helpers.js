@@ -1,5 +1,3 @@
-import { groups } from "../data/data";
-
 export const getUserData = (userId) => {
   const options = {
     method: "GET",
@@ -13,7 +11,7 @@ export const getUserData = (userId) => {
   });
 };
 
-export const addSuggestionToGroup = (groupId, member, list, suggestion) => {
+export const addSuggestionToGroup = (groupId, forName, suggestion) => {
   const options = {
     method: "PATCH",
     headers: {
@@ -21,9 +19,23 @@ export const addSuggestionToGroup = (groupId, member, list, suggestion) => {
     },
     body: JSON.stringify({
       groupId,
-      member,
-      list,
+      forName,
       suggestion,
+    }),
+  };
+
+  return fetch(`/suggestion/`, options).then((res) => res.json());
+};
+
+export const deleteSuggestion = (groupId, suggId) => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      groupId,
+      suggId,
     }),
   };
 

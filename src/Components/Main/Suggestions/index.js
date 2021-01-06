@@ -2,17 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import { AddSuggestion } from "./AddSuggestion";
-import { UserContext } from "../../UserContext";
+
 import { SuggestionList } from "./SuggestionList";
+import { useSelector } from "react-redux";
 
 export const Suggestions = ({ selectedMember }) => {
-  const { appUser, currentGroup } = React.useContext(UserContext);
-
-  React.useEffect(() => {
-    if (!currentGroup.members[selectedMember]) {
-      return;
-    }
-  }, [currentGroup, selectedMember]);
+  const { appUser } = useSelector((state) => state.appUser);
 
   let emptyOwnListText =
     "This list is empty. Please ask this person to add some suggestions!";
@@ -26,11 +21,7 @@ export const Suggestions = ({ selectedMember }) => {
 
   return (
     <Wrapper>
-      <AddSuggestion
-        selectedMember={selectedMember}
-        appUserName={appUser.name}
-        currentGroupId={currentGroup._id}
-      />
+      <AddSuggestion selectedMember={selectedMember} />
       <SuggestionsArea>
         <Title>Suggestions</Title>
         <Subtitle>{`These suggestions were added by ${selectedMember}`}</Subtitle>
@@ -38,7 +29,6 @@ export const Suggestions = ({ selectedMember }) => {
           listType={"ownList"}
           emptyString={emptyOwnListText}
           selectedUserId={selectedMember}
-          suggestions={currentGroup.suggestions}
         />
 
         {selectedMember !== appUser.name && (
@@ -50,7 +40,6 @@ export const Suggestions = ({ selectedMember }) => {
               listType={"othersList"}
               emptyString={emptyOthersListText}
               selectedUserId={selectedMember}
-              suggestions={currentGroup.suggestions}
             />
           </>
         )}

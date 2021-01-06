@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { FiUsers, FiHome, FiLogOut, FiUser } from "react-icons/fi";
 
 import { COLORS } from "../../constants";
+import { useSelector, useDispatch } from "react-redux";
 
-import { UserContext } from "../UserContext";
 import UnstyledButton from "../UnstyledButton";
 import { GroupsDropDown } from "./GroupsDropDown";
 
 export const TopBar = () => {
-  const { appUser } = React.useContext(UserContext);
-
+  const { appUser, status } = useSelector((state) => state.appUser);
   const [dropdownState, setDropDownState] = React.useState("");
 
   if (!appUser) {

@@ -3,7 +3,16 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import GlobalStyles from "./Components/GlobalStyles";
 
-import { UserContext } from "./Components/UserContext";
+import { getUserData } from "./helpers/api-helpers";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  requestUserInfo,
+  receiveUserInfo,
+  userInfoError,
+  receiveGroupData,
+} from "./actions";
 
 import { COLORS } from "./constants";
 
@@ -11,9 +20,24 @@ import { TopBar } from "./Components/TopBar";
 import { Main } from "./Components/Main";
 
 export const App = () => {
-  const { appUser } = React.useContext(UserContext);
+  const dispatch = useDispatch();
 
-  if (!appUser) {
+  const { appUser, status } = useSelector((state) => state.appUser);
+  const { userId } = useSelector((state) => state.auth);
+
+  React.useEffect(() => {
+    dispatch(requestUserInfo());
+
+    getUserData(userId)
+      .then((data) => {
+        console.log(data);
+        dispatch(receiveGroupData(data.userGroups));
+        dispatch(receiveUserInfo(data.userData));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  if (status === "loading") {
     return (
       <Wrapper>
         <TopBar />
