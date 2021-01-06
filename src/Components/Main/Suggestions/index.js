@@ -1,39 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Suggestion } from "./Suggestion";
 import { AddSuggestion } from "./AddSuggestion";
 import { UserContext } from "../../UserContext";
+import { SuggestionList } from "./SuggestionList";
 
-export const Suggestions = ({ selectedMember, currentGroup }) => {
-  const { appUser } = React.useContext(UserContext);
-
-  const [ownList, setOwnList] = React.useState(
-    currentGroup.members[selectedMember].ownList
-  );
-  const [othersList, setOthersList] = React.useState(
-    currentGroup.members[selectedMember].othersList
-  );
+export const Suggestions = ({ selectedMember }) => {
+  const { appUser, currentGroup } = React.useContext(UserContext);
 
   React.useEffect(() => {
-    setOwnList(currentGroup.members[selectedMember].ownList);
-    setOthersList(currentGroup.members[selectedMember].othersList);
-  }, [selectedMember]);
-
-  const updateList = (list, newSuggestion) => {
-    if (list === "ownList") {
-      setOwnList((ownList) => [...ownList, newSuggestion]);
-    } else {
-      setOthersList((othersList) => [...othersList, newSuggestion]);
+    if (!currentGroup.members[selectedMember]) {
+      return;
     }
-  };
+  }, [currentGroup, selectedMember]);
 
   let emptyOwnListText =
     "This list is empty. Please ask this person to add some suggestions!";
 
-  let emptyOthersListText = `This list is empty. Add some suggestions for ${selectedMember.name}!`;
+  let emptyOthersListText = `This list is empty. Add some suggestions for ${selectedMember}!`;
 
-  if (selectedMember.id === appUser.id) {
+  if (selectedMember === appUser.name) {
     emptyOwnListText =
       "Your list is empty. Add some suggestions to help others find ideas for you!";
   }
@@ -44,47 +30,28 @@ export const Suggestions = ({ selectedMember, currentGroup }) => {
         selectedMember={selectedMember}
         appUserName={appUser.name}
         currentGroupId={currentGroup._id}
-        updateList={updateList}
       />
       <SuggestionsArea>
         <Title>Suggestions</Title>
         <Subtitle>{`These suggestions were added by ${selectedMember}`}</Subtitle>
-        <SuggestionList>
-          {ownList.length === 0 && (
-            <Suggestion name={emptyOwnListText} desc={""} link={""} />
-          )}
-          {ownList.map((item, index) => {
-            return (
-              <Suggestion
-                key={`${item.name} + ${index}`}
-                name={item.name}
-                desc={item.desc}
-                link={item.link}
-              />
-            );
-          })}
-        </SuggestionList>
+        <SuggestionList
+          listType={"ownList"}
+          emptyString={emptyOwnListText}
+          selectedUserId={selectedMember}
+          suggestions={currentGroup.suggestions}
+        />
 
         {selectedMember !== appUser.name && (
           <>
             <Splitter />
             <Title>Secret Suggestions</Title>
             <Subtitle>{`These suggestions were added by others in your group, and are hidden to ${selectedMember}`}</Subtitle>
-            <SuggestionList>
-              {othersList.length === 0 && (
-                <Suggestion name={emptyOthersListText} desc={""} link={""} />
-              )}
-              {othersList.map((item, index) => {
-                return (
-                  <Suggestion
-                    key={`${item.name} + ${index}`}
-                    name={item.name}
-                    desc={item.desc}
-                    link={item.link}
-                  />
-                );
-              })}
-            </SuggestionList>
+            <SuggestionList
+              listType={"othersList"}
+              emptyString={emptyOthersListText}
+              selectedUserId={selectedMember}
+              suggestions={currentGroup.suggestions}
+            />
           </>
         )}
       </SuggestionsArea>
@@ -121,5 +88,3 @@ const Splitter = styled.div`
   margin-right: -16px;
   background-color: red;
 `;
-
-const SuggestionList = styled.ul``;

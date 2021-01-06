@@ -28,6 +28,7 @@ const Wrapper = styled.li`
   border: 1px solid black;
   border-radius: 6px;
   padding: 16px;
+  list-style-type: none;
 `;
 
 const Name = styled.p`

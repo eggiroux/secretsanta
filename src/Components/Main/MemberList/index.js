@@ -14,7 +14,7 @@ export const MemberList = ({
       <Title>{currentGroup.name}</Title>
 
       <Members>
-        {Object.keys(currentGroup.members).map((member, index) => {
+        {currentGroup.members.map((member, index) => {
           return (
             <Member
               key={`${member}-${index}`}

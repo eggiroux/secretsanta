@@ -5,9 +5,14 @@ import { FiUsers, FiHome, FiLogOut, FiUser } from "react-icons/fi";
 import { COLORS } from "../../constants";
 
 import { UserContext } from "../UserContext";
+import UnstyledButton from "../UnstyledButton";
+import { GroupsDropDown } from "./GroupsDropDown";
 
 export const TopBar = () => {
   const { appUser } = React.useContext(UserContext);
+
+  const [dropdownState, setDropDownState] = React.useState("");
+
   if (!appUser) {
     return null;
   }
@@ -18,10 +23,21 @@ export const TopBar = () => {
           <FiHome size={24} />
           <ActionName>Home</ActionName>
         </Action>
-        <Action href={"/groups"}>
+        <Action
+          onClick={(ev) => {
+            setDropDownState("groups");
+          }}
+        >
           <FiUsers size={24} />
           <ActionName>Groups</ActionName>
         </Action>
+        <GroupsDropDown
+          currentMenu={dropdownState}
+          dismiss={(ev) => {
+            ev.stopPropagation();
+            setDropDownState("");
+          }}
+        />
       </ActionsArea>
 
       <ActionsArea>
@@ -47,7 +63,7 @@ const Wrapper = styled.header`
   padding: 8px;
 `;
 
-const Action = styled.a`
+const Action = styled(UnstyledButton)`
   color: ${COLORS.background};
   display: flex;
   flex-direction: column;
@@ -73,3 +89,7 @@ const ActionsArea = styled.ul`
 const ActionName = styled.span`
   color: inherit;
 `;
+
+const List = styled.ul``;
+
+const ListItem = styled.li``;

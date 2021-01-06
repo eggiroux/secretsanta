@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { groups } from "../../data/data";
-
 import { UserContext } from "../UserContext";
 
 import { MemberList } from "./MemberList";
@@ -12,6 +10,10 @@ export const Main = () => {
   const { appUser, currentGroup } = React.useContext(UserContext);
 
   const [selectedMember, setSelectedMember] = React.useState(appUser.name);
+
+  React.useEffect(() => {
+    setSelectedMember(appUser.name);
+  }, [currentGroup, appUser]);
 
   // console.log(selectedMember);
 
