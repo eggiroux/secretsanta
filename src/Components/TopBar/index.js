@@ -13,7 +13,17 @@ export const TopBar = () => {
   const [dropdownState, setDropDownState] = React.useState("");
 
   if (!appUser) {
-    return null;
+    return (
+      <Wrapper>
+        <ActionsArea>
+          <Action href={"/"}>
+            <FiHome size={24} />
+            <ActionName>Home</ActionName>
+          </Action>
+        </ActionsArea>
+        <ActionsArea></ActionsArea>
+      </Wrapper>
+    );
   }
   return (
     <Wrapper>

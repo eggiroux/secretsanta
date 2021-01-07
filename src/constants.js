@@ -3,5 +3,5 @@ export const COLORS = {
   hightlightArea: "hsl(0deg 57% 50%)",
   mainText: "hsl(321deg, 55%, 51%)",
   passiveText: "hsl(96deg 57% 60%)",
-  highlightedText: "hsl(321deg, 55%, 51%)",
+  highlightedText: "hsl(0deg 57% 50%)",
 };

@@ -3,7 +3,7 @@ import produce from "immer";
 const initialState = {
   token: null,
   userId: 873681764,
-  status: "idle",
+  status: "loading",
 };
 
 export default function authReducer(state = initialState, action) {

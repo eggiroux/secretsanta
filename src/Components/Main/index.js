@@ -40,7 +40,7 @@ export const Main = () => {
   );
 };
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   display: flex;
   padding: 16px;
 `;
