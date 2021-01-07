@@ -35,6 +35,8 @@ export default function groupsReducer(state = initialState, action) {
     case "CHANGE_CURRENT_GROUP": {
       return produce(state, (draftState) => {
         draftState.currentGroup = state.groups[action.groupIndex];
+        draftState.currentSuggestions =
+          state.groups[action.groupIndex].suggestions;
         draftState.error = "";
       });
     }

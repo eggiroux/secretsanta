@@ -48,6 +48,7 @@ export const SuggestionList = ({ emptyString, selectedUserId, listType }) => {
             link={item.link}
             suggId={item.id}
             from={item.from}
+            date={item.date}
           />
         );
       })}
